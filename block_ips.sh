@@ -49,6 +49,7 @@ done < $file
 
 while read line;
 do
+        firewall-cmd --permanent --add-rich-rule="rule family='ipv4' source address='$line' accept"
         firewall-cmd --permanent --remove-rich-rule="rule family='ipv4' source address='$line' reject"
 done < $hosts_allow
 
