@@ -9,6 +9,9 @@
 #Before executing the script make sure that your public IPv4 address is in the /etc/hosts.allow file, 
 #otherwise you will lose connectivity with your machine if you are accessing remotely through the internet.
 #
+# You can find out your public IPv4 address here:
+# https://ipinfo.elblogdeladministrador.com/app/geolocation.php
+#
 #In order to avoid rare errors, I strongly recommend you to remove all the comment lines that come by default 
 #in the file mentioned above (/etc/hosts.allow).
 #
