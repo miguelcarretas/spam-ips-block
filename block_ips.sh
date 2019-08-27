@@ -5,17 +5,6 @@
 #       and prevent posible attacks                 #
 #                                                   #
 #####################################################
-# ¡¡README!!
-#Before executing the script make sure that your public IPv4 address is in the /etc/hosts.allow file, 
-#otherwise you will lose connectivity with your machine if you are accessing remotely through the internet.
-#
-# You can find out your public IPv4 address here:
-# https://ipinfo.elblogdeladministrador.com/app/geolocation.php
-#
-#In order to avoid rare errors, I strongly recommend you to remove all the comment lines that come by default 
-#in the file mentioned above (/etc/hosts.allow).
-#
-
 file=bad_ips.txt
 hosts_allow=/etc/hosts.allow
 # First, it checks the file that saves the failed logins, filtering through public IPv4 and redirecting the output to a file.
@@ -37,6 +26,14 @@ firewall_rules="rules.txt"
 echo "" > $firewall_rules
 iptables -L -n > $firewall_rules
 
+# First, permit allowed ipv4
+
+while read line;
+do
+        firewall-cmd --permanent --remove-rich-rule="rule family='ipv4' source address='$line' reject"
+        firewall-cmd --permanent --add-rich-rule="rule family='ipv4' source address='$line' accept"
+done < $hosts_allow
+
 # Initialize "newip" variable
 newip=0
 
@@ -50,9 +47,10 @@ do
         fi
 done < $file
 
+# Remove allowed ipv4 from rejected rules
+
 while read line;
 do
-        firewall-cmd --permanent --add-rich-rule="rule family='ipv4' source address='$line' accept"
         firewall-cmd --permanent --remove-rich-rule="rule family='ipv4' source address='$line' reject"
 done < $hosts_allow
 
@@ -72,3 +70,4 @@ echo -e
 echo "$totalips bad IP's register"
 
 echo "********** The program is finished *************"
+
