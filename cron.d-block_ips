@@ -1,0 +1,2 @@
+# /etc/cron.d/block_ips
+30 0 * * * root /root/scripts/block_ips.sh >/dev/null 2>&1
