@@ -1,10 +1,10 @@
 #!/bin/bash
-#####################################################
-#       Autor: Miguel Carretas Perulero             #
-#       Description: This script block dangers IP   #
-#       and prevent posible attacks                 #
-#                                                   #
-#####################################################
+###########################################################
+#       Autor: Miguel Carretas Perulero                   #
+#       Description: This script block unauthorized IPs   #
+#       and prevent posible attacks                       #
+#                                                         #
+###########################################################
 file=bad_ips.txt
 hosts_allow=permited_hosts
 # First, it checks the file that saves the failed logins, filtering through public IPv4 and redirecting the output to a file.
