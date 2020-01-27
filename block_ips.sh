@@ -33,7 +33,6 @@ iptables -L -n > $firewall_rules
 
 while read line;
 do
-        firewall-cmd --permanent --remove-rich-rule="rule family='ipv4' source address='$line' reject"
         firewall-cmd --permanent --add-rich-rule="rule family='ipv4' source address='$line' accept"
 done < $hosts_allow
 
@@ -49,13 +48,6 @@ do
         echo "The IP: $line has already been blocked beforehand." # If public IPv4 is already denied, we display this message
         fi
 done < $file
-
-# Remove allowed ipv4 from rejected rules
-
-while read line;
-do
-        firewall-cmd --permanent --remove-rich-rule="rule family='ipv4' source address='$line' reject"
-done < $hosts_allow
 
 echo -e
 echo "Restarting firewallcmd service"
