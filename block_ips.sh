@@ -8,8 +8,11 @@
 file=bad_ips.txt
 hosts_allow=permited_hosts
 # First, it checks the file that saves the failed logins, filtering through public IPv4 and redirecting the output to a file.
-utmpdump /var/log/btmp | egrep -v "root" | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' | uniq > $file
-cat /var/log/messages | grep "FINAL_REJECT" | awk '{print $10}' | cut -d "=" -f 2 | uniq  >> $file
+while read line;
+do
+utmpdump /var/log/btmp | egrep -v "root" | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' | egrep -v $line | uniq > $file
+cat /var/log/messages | grep "FINAL_REJECT" | awk '{print $10}' | cut -d "=" -f 2 | egrep -v $line | uniq  >> $file
+done < $hosts_allow
 
 filter=$file
 cat $filter | uniq > $file
